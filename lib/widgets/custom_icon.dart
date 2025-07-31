@@ -12,7 +12,7 @@ class CustomIcon extends StatelessWidget {
         width: 46,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white.withValues(alpha: .1),
+          color: Colors.white.withValues(alpha:0.1),
         ),
         child: Center(child: Icon(Icons.search, size: 25)),
       ),
