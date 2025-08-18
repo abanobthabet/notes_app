@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomIcon extends StatelessWidget {
-  const CustomIcon({super.key});
+  const CustomIcon({super.key, required this.icon});
 
+  final IconData icon;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -12,9 +13,9 @@ class CustomIcon extends StatelessWidget {
         width: 46,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
-          color: Colors.white.withValues(alpha:0.1),
+          color: Colors.white.withValues(alpha: 0.1),
         ),
-        child: Center(child: Icon(Icons.search, size: 25)),
+        child: Center(child: Icon(icon, size: 25)),
       ),
     );
   }
