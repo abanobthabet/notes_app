@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/views/eidet_notes_view.dart';
 
 class NoteApp extends StatelessWidget {
-  const NoteApp({super.key});
-
+  const NoteApp({super.key, required this.noteModel});
+  final NoteModel noteModel;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, EidetNotesView.id);
+        Navigator.pushNamed(context, EidetNotesView.id,arguments: noteModel);
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -18,7 +21,7 @@ class NoteApp extends StatelessWidget {
           bottom: 23,
         ),
         decoration: BoxDecoration(
-          color: Color(0xffD6AA66),
+          color: Color(noteModel.color),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Column(
@@ -26,7 +29,7 @@ class NoteApp extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                'Flutter Tips',
+                noteModel.title,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -35,7 +38,7 @@ class NoteApp extends StatelessWidget {
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 14),
                 child: Text(
-                  'Build your career with Abanob Thabet',
+                  noteModel.subtitle,
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black.withValues(
@@ -45,7 +48,12 @@ class NoteApp extends StatelessWidget {
                 ),
               ),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  noteModel.delete();
+                  BlocProvider.of<NotesCubit>(
+                    context,
+                  ).fetshnotes();
+                },
                 icon: Icon(
                   size: 20,
                   FontAwesomeIcons.trash,
@@ -58,7 +66,7 @@ class NoteApp extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 15),
                 child: Text(
-                  'may 21 ,2025',
+                  noteModel.date,
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.black.withValues(

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:notes_app/cubits/add_note_cubit/add_notes_cubit.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit_cubit.dart';
+import 'package:notes_app/models/note_model.dart';
+import 'package:notes_app/simple_blok_observer.dart';
 import 'package:notes_app/views/eidet_notes_view.dart';
 import 'package:notes_app/views/notes_view.dart';
 import 'package:notes_app/widgets/constant.dart';
 
 void main() async {
+  Bloc.observer = SimpleBlokObserver();
   await Hive.initFlutter();
-  await Hive.openBox(kopenbox);
+  Hive.registerAdapter(NoteModelAdapter());
+  await Hive.openBox<NoteModel>(knotesbox);
+
   runApp(const NotesApp());
 }
 
@@ -15,16 +23,19 @@ class NotesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      routes: {
-        EidetNotesView.id: (context) => EidetNotesView(),
-      },
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        fontFamily: 'Poppins',
+    return BlocProvider(
+      create: (context) => NotesCubit(),
+      child: MaterialApp(
+        routes: {
+          EidetNotesView.id: (context) => EidetNotesView(),
+        },
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          fontFamily: 'Poppins',
+        ),
+        home: NotesView(),
       ),
-      home: NotesView(),
     );
   }
 }

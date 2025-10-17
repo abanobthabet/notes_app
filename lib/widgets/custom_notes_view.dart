@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit_cubit.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
+import 'package:notes_app/widgets/custom_list_view.dart';
 import 'package:notes_app/widgets/custom_note_app.dart';
 
-class NotesviewBody extends StatelessWidget {
+class NotesviewBody extends StatefulWidget {
   const NotesviewBody({super.key});
+
+  @override
+  State<NotesviewBody> createState() =>
+      _NotesviewBodyState();
+}
+
+class _NotesviewBodyState extends State<NotesviewBody> {
+  @override
+  void initState() {
+    BlocProvider.of<NotesCubit>(context).fetshnotes();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,20 +34,16 @@ class NotesviewBody extends StatelessWidget {
           SizedBox(height: 50),
           CustomAppBar(title: 'Notes', icon: Icons.search),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 16,
-              ),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: NoteApp(),
-                  );
-                },
-              ),
+            child: BlocBuilder<NotesCubit, NotesCubitState>(
+              builder: (context, state) {
+                return CustomListView(
+                  notes:
+                      BlocProvider.of<NotesCubit>(
+                        context,
+                      ).notes ??
+                      [],
+                );
+              },
             ),
           ),
         ],
