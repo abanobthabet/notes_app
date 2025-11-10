@@ -19,7 +19,7 @@ class AddModelButtomSheet extends StatelessWidget {
       child: BlocConsumer<AddNotesCubit, AddNotesState>(
         listener: (context, state) {
           if (state is AddNotesFailure) {
-            print('filed');
+            print('Filed');
           }
 
           if (state is AddNotesSuccess) {
