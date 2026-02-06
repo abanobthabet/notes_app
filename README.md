@@ -1,8 +1,11 @@
-# notes_app
+# Notes App
 
-A new Flutter project.
+A simple notes app built with Flutter.
 
-## Getting Started
+## Features
+- Create, edit & delete notes
+- Local storage using Hive
+- State management with Cubit
 
 This project is a starting point for a Flutter application.
 
